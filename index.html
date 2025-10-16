@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cahier Interactif</title>
+<link rel="icon" type="image/x-icon" href="logo.jpeg">
+<style>
+/* -------- Base -------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', Arial, sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg,#e3e6ed 0%,#f7fafc 100%);
+    color: #333;
+    line-height: 1.6;
+}
+
+/* -------- Header -------- */
+header {
+    background: linear-gradient(90deg,#1f3650 60%,#3062a7 100%);
+    color: #fff;
+    padding: 35px 20px 25px 20px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 2px 16px rgba(32,54,80,0.09);
+}
+
+header .logo {
+    width: 80px;
+    margin-bottom: 10px;
+    border-radius: 12px;
+    box-shadow: 0 2px 18px rgba(47,77,106,0.13);
+}
+
+.header-images {
+    display: flex;
+    justify-content: center;
+    gap: 13px;
+    margin-bottom: 18px;
+}
+
+.header-images img {
+    max-width: 100px;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(47,77,106,0.11);
+}
+
+.site-title {
+    font-size: 2em;
+    font-weight: bold;
+    letter-spacing: 1px;
+    margin-top: 7px;
+    margin-bottom: 8px;
+}
+
+/* -------- Dashboard Button -------- */
+.dashboard-btn {
+    justify-content: center;
+    align-items: center;
+
+    background: linear-gradient(90deg,#1f3650 70%,#1f3650 100%);
+    color: #fff;
+    font-weight: 600;
+    padding: 12px 32px;
+    border-radius: 9px;
+    font-size: 1.1em;
+    margin-top: 18px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    box-shadow: 0 2px 12px rgba(76,175,80,0.13);
+    border: none;
+    transition:  0.3s, box-shadow 0.3s;
+    letter-spacing: 0.5px;
+}
+.dashboard-btn:hover {
+    background: linear-gradient(90deg,#1f3650 70%,#1f3650 100%);
+    box-shadow: 0 5px 22px rgba(47,77,106,0.13);
+    color: #fff;
+}
+
+/* -------- Main -------- */
+main {
+    padding: 40px 20px;
+    max-width: 980px;
+    margin: auto;
+}
+
+main h1, .platform-info {
+    color: #3062a7;
+    text-align: center;
+    margin-bottom: 28px;
+    font-size: 1.35em;
+}
+
+.platform-info {
+    font-size: 1.15em;
+    color: #1f3650;
+    margin-bottom: 28px;
+}
+
+/* -------- Access Levels -------- */
+.access-levels {
+    max-width: 900px;
+    margin: 30px auto;
+}
+
+.access h3 {
+    color: #1f3650;
+    font-size: 1.24em;
+    margin-bottom: 11px;
+}
+
+.access h4 {
+    color: #3062a7;
+    font-size: 1.09em;
+    margin-top: 15px;
+    margin-bottom: 8px;
+}
+
+.access p {
+    margin-bottom: 10px;
+}
+
+.access ul, .access ol {
+    margin-left: 17px;
+    margin-bottom: 13px;
+}
+
+.access li {
+    margin-bottom: 5px;
+}
+
+.free-access {
+    background: linear-gradient(90deg,#e0f7fa 60%, #f8fffb 100%);
+    padding: 20px;
+    border-radius: 11px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 8px rgba(76,175,80,0.10);
+}
+
+.paid-access {
+    background: linear-gradient(90deg,#fff3e0 80%,#fffde7 100%);
+    padding: 20px;
+    border-radius: 11px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 8px rgba(76,175,80,0.10);
+}
+
+/* -------- Login Section -------- */
+.login-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 48px;
+    margin-top: 45px;
+}
+
+.login-box {
+    background: #fff;
+    border-radius: 13px;
+    box-shadow: 0 8px 20px rgba(47,77,106,0.11);
+    padding: 32px 25px;
+    width: 305px;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.login-box:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 28px rgba(47,77,106,0.18);
+}
+
+.login-box h3 {
+    margin-bottom: 23px;
+    color: #3062a7;
+    font-size: 1.18em;
+    text-align: center;
+    letter-spacing: 1px;
+}
+
+.login-box input[type="text"],
+.login-box input[type="password"] {
+    width: 100%;
+    padding: 11px 9px;
+    margin-bottom: 16px;
+    border-radius: 8px;
+    border: 1px solid #b6c2ce;
+    font-size: 0.97em;
+    transition: border 0.3s;
+}
+
+.login-box input:focus {
+    border-color: #3062a7;
+    outline: none;
+}
+
+.login-box button {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(90deg,#4caf50 70%,#3062a7 100%);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.05em;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition:  0.3s;
+}
+
+.login-box button:hover {
+    background: linear-gradient(90deg,#3062a7 70%,#1f3650 100%);
+    color: #fff;
+}
+
+/* -------- Responsive -------- */
+@media (max-width: 700px) {
+    .login-container {
+        flex-direction: column;
+        gap: 30px;
+    }
+    header .header-images img,
+    header .logo {
+        width: 65px;
+        max-width: 65px;
+    }
+    main h1, .platform-info {
+        font-size: 1.07em;
+    }
+    .access h3 {
+        font-size: 1.11em;
+    }
+    .login-box {
+        width: 95vw;
+        padding: 19px 8px;
+    }
+}
+</style>
+</head>
+<body>
+
+<header>
+    <img src="logo.jpeg" alt="Logo Cahier Interactif" class="logo">
+    <div class="header-images">
+        <img src="photo1.jpeg" alt="Illustration 1">
+    </div>
+    <h2 class="site-title">Cahier Interactif d’Activités Numériques en art de la table</h2>
+    <!-- زر الداشبورد (ينقل للصفحة المطلوبة) -->
+</header>
+
+<main>
+
+    <h1>
+       Le Cahier interactif d'activités numériques en art de la table  Signé <strong style="color: #4caf50;">M. Yousfi Imad Eddine</strong>, enseignant formateur en Art de la Table, vise à moderniser et faciliter la formation professionnelle.
+    </h1>
+
+    <h2 class="platform-info">
+      La plateforme <span style="color: #3062a7;">“Numéritable”</span> propose deux niveaux d'accès :
+    </h2>
+
+    <div class="access-levels">
+        <section class="access free-access">
+            <h3>🔑 1. Accès gratuit </h3>
+            <p>Pour découvrir la plateforme. L’accès gratuit comprend :</p>
+            <ul>
+                <li>Inscription et création d’un compte</li>
+                <li>Accès à quelques fiches techniques de base (ex: règles d’hygiène de base)</li>
+                <li>Vidéos d’introduction et mini-quiz de démonstration</li>
+                <li>Consultation d’extraits de cours dans chaque module</li>
+            </ul>
+            <p><strong>🎯 Objectif :</strong> permettre aux stagiaires et enseignants de tester la plateforme avant de s’abonner.</p>
+        </section>
+
+        <section class="access paid-access">
+            <h3>💳 2. Accès payant (abonnement complet)</h3>
+            <p>Pour débloquer l’ensemble des contenus :</p>
+            <ul>
+                <li>Tous les modules pédagogiques (Techniques de service, Mise en place, Hygiène et sécurité)</li>
+                <li>Fiches techniques détaillées, activités interactives et exercices pratiques</li>
+                <li>Accès aux quiz d’évaluation et au suivi de progression</li>
+                <li>Ressources complémentaires réservées aux enseignants (supports de cours, suggestions d’activités)</li>
+            </ul>
+
+            <h4>💰 Procédure d’abonnement et de paiement</h4>
+            <ol>
+                <li>Cliquez sur <strong>“S’abonner”</strong> depuis la page d’accueil.</li>
+                <li>Remplissez le formulaire d’inscription (Nom, Prénom, e-mail, rôle : stagiaire ou enseignant).</li>
+                <li>Choisissez une formule d’abonnement (mensuelle, trimestrielle ou annuelle).</li>
+                <li>Paiement sécurisé :
+                    <ul>
+                        <li>Par carte bancaire algérienne (Edahabia, CIB)</li>
+                        <li>Ou par paiement mobile / code QR</li>
+                    </ul>
+                </li>
+                <li>Une fois le paiement validé, l’accès complet est activé et vous recevez un e-mail de confirmation.</li>
+            </ol>
+
+            <h4>🎁 Offre spéciale de lancement</h4>
+            <p>Pour encourager l’adoption de la plateforme :</p>
+            <ul>
+                <li>Les 10 premiers abonnés bénéficieront de :
+                    <ul>
+                        <li>🔹 Réduction de 30 % sur le tarif de la première année</li>
+                        <li>🔹 Accès anticipé aux nouvelles mises à jour</li>
+                        <li>🔹 Certificat de reconnaissance comme “Membre pionnier de la plateforme NumériTable”</li>
+                    </ul>
+                </li>
+            </ul>
+        </section>
+    </div>
+
+    <div class="login-container">
+        <div class="login-box">
+            <h3>Connexion Stagiaires</h3>
+            <form action="dashboard_stagiaire.html" method="POST">
+                <input type="text" name="username" placeholder="Nom d'utilisateur" required>
+                <input type="password" name="password" placeholder="Mot de passe" required>
+                <button type="submit">Se connecter</button>
+            </form>
+        </div>
+
+        <div class="login-box">
+            <h3>Connexion Enseignants</h3>
+            <form action="dashboard_enseignant.html" method="POST">
+                <input type="text" name="username" placeholder="Nom d'utilisateur" required>
+                <input type="password" name="password" placeholder="Mot de passe" required>
+                <button type="submit">Se connecter</button>
+            </form>
+
+        </div>
+    <button class="dashboard-btn" onclick="goToDashboard()">Accéder au tableau de bord</button>
+
+    </div>
+</main>
+
+<script>
+function goToDashboard() {
+  window.location.href = "dashboard.html"; // غيّر الرابط حسب لوحة القيادة المطلوبة
+}
+</script>
+</body>
+</html>

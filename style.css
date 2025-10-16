@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cahier d'activités numérique – Art de la Table</title>
+  <link rel="icon" type="image/x-icon" href="logo.jpeg">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <style>
+    body {
+      font-family: "Poppins", Arial, sans-serif;
+      background: linear-gradient(135deg,#e3e6ed 0%,#f7fafc 100%);
+      color: #222;
+      margin: 0;
+      padding: 0;
+    }
+    .sidebar {
+      width: 230px;
+      background: linear-gradient(180deg,#1f3650 65%,#3062a7 100%);
+      color: #fff;
+      position: fixed;
+      left: 0; top: 0; height: 100vh;
+      display: flex; flex-direction: column;
+      padding-top: 40px;
+      box-shadow: 3px 0 12px rgba(0,0,0,0.09);
+      z-index: 10;
+    }
+    .sidebar a {
+      cursor: pointer;
+      padding: 18px 32px;
+      font-size: 1.08rem;
+      border-left: 4px solid transparent;
+      color: #fff;
+      text-decoration: none;
+      letter-spacing: 0.5px;
+      transition: background 0.3s, padding-left 0.3s;
+    }
+    .sidebar a:hover,
+    .sidebar a.active {
+      background: #2f4d6a;
+      border-left: 4px solid #4caf50;
+      padding-left: 48px;
+      color: #f5f5f5;
+    }
+    .main {
+      margin-left: 230px;
+      padding: 40px 36px;
+      background: transparent;
+      min-height: 100vh;
+    }
+    .section { display: none; animation: fadeIn 0.6s;}
+    .section.active { display:block;}
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      gap: 32px;
+    }
+    .card {
+      background: #fff;
+      border-radius: 18px;
+      padding: 24px 18px 18px 18px;
+      box-shadow: 0 4px 22px rgba(47,77,106,0.14);
+      text-align: center;
+      transition: transform 0.3s, box-shadow 0.3s;
+      position: relative;
+      border: 2px solid #eaeaea;
+      overflow: hidden;
+    }
+    .card:hover {
+      transform: translateY(-8px) scale(1.03);
+      box-shadow: 0 12px 32px rgba(47,77,106,0.19);
+      border-color: #4caf50;
+    }
+    .card img {
+      width: 110px;
+      height: 110px;
+      object-fit: cover;
+      margin-bottom: 14px;
+      border-radius: 50%;
+      border: 4px solid #4caf50;
+      background: #f2f6fa;
+      box-shadow: 0 2px 15px rgba(76,175,80,0.10);
+      transition: box-shadow 0.3s, border-color 0.3s;
+    }
+    .card:hover img {
+      box-shadow: 0 8px 38px rgba(76,175,80,0.17);
+      border-color: #3062a7;
+    }
+    .card h3 {
+      color: #2f4d6a;
+      font-size: 1.22rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      letter-spacing: 0.5px;
+    }
+    .card p {
+      font-size: 1rem;
+      color: #555;
+      line-height: 1.6;
+      min-height: 56px;
+      margin-bottom: 0px;
+    }
+    .card .btn-group { display: flex; gap: 13px; justify-content: center; margin-top: 20px;}
+    .btn {
+      background: linear-gradient(90deg,#4caf50 50%,#3062a7 100%);
+      color: #fff;
+      border: none;
+      padding: 13px 26px;
+      border-radius: 9px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s, box-shadow 0.3s;
+      box-shadow: 0 2px 8px rgba(47,77,106,0.10);
+      letter-spacing: 0.5px;
+    }
+    .btn:hover {
+      background: linear-gradient(90deg,#3062a7 50%,#4caf50 100%);
+      box-shadow: 0 6px 18px rgba(76,175,80,0.13);
+      transform: translateY(-2px);
+      color: #fff;
+    }
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 999;
+      left: 0; top: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(32, 54, 80, 0.18);
+      justify-content: center;
+      align-items: center;
+      animation: fadeIn 0.5s;
+    }
+    .modal-content {
+      background: #fff;
+      border-radius: 20px;
+      padding: 36px 34px 28px 34px;
+      box-shadow: 0 8px 32px rgba(47,77,106,0.20);
+      max-width: 540px;
+      width: 98vw;
+      position: relative;
+      animation: fadeInUp 0.7s;
+    }
+    .modal-content video {
+      width: 100%;
+      max-width: 430px;
+      border-radius: 13px;
+      box-shadow: 0 8px 32px rgba(76,175,80,0.12);
+      background: #eef3f8;
+    }
+    .close {
+      position: absolute;
+      right: 18px;
+      top: 12px;
+      font-size: 2rem;
+      color: #2f4d6a;
+      cursor: pointer;
+      font-weight: bold;
+      transition: color 0.3s;
+      z-index: 1;
+    }
+    .close:hover { color: #4caf50; }
+    /* Quiz Styles */
+    #quiz-container {
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 8px 32px rgba(47,77,106,0.15);
+      padding: 34px 28px 28px 28px;
+      max-width: 500px;
+      margin: 40px auto;
+      text-align: center;
+      animation: fadeInUp 0.8s;
+    }
+    #quiz-container h1 {
+      color: #3062a7;
+      font-size: 1.28rem;
+      margin-bottom: 14px;
+      letter-spacing: 1px;
+    }
+    #question-number {
+      font-size: 1.1rem;
+      color: #4caf50;
+      font-weight: 600;
+      margin-bottom: 10px;
+      letter-spacing: 0.5px;
+    }
+    #question-text { color: #333; font-size: 1.03rem; margin-bottom: 18px; font-weight: 500;}
+    #answer-buttons { display: flex; flex-direction: column; gap: 13px; margin-bottom: 16px;}
+    #answer-buttons .btn {
+      background-color: #e6f0fa;
+      color: #3062a7;
+      border: 2px solid #4caf50;
+      padding: 11px 0;
+      border-radius: 9px;
+      font-size: 1rem;
+      font-weight: 600;
+    }
+    #answer-buttons .btn.correct {
+      background: linear-gradient(90deg,#4caf50 60%,#e6f0fa 100%);
+      color: #fff;
+      border-color: #4caf50;
+    }
+    #answer-buttons .btn.wrong {
+      background: linear-gradient(90deg,#f44336 60%,#e6f0fa 100%);
+      color: #fff;
+      border-color: #f44336;
+    }
+    #next-btn {
+      background: linear-gradient(90deg,#4caf50 80%,#3062a7 100%);
+      color: #fff;
+      border: none;
+      padding: 13px 32px;
+      border-radius: 9px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      box-shadow: 0 4px 16px rgba(47,77,106,0.10);
+      cursor: pointer;
+      margin: 0 auto;
+      display: inline-block;
+      letter-spacing: 0.5px;
+    }
+    #next-btn:hover {
+      background: linear-gradient(90deg,#3062a7 80%,#4caf50 100%);
+      box-shadow: 0 8px 24px rgba(76,175,80,0.15);
+    }
+    #progress-bar { width: 100%; max-width: 260px; margin: 22px auto 0 auto; height: 18px; background: #e6f0fa; border-radius: 16px;}
+    #progress-fill { height: 100%; background: linear-gradient(90deg,#4caf50 30%,#3062a7 100%); transition: width 0.5s cubic-bezier(.68,-0.55,.27,1.55); border-radius: 16px;}
+    #progress { background: #fff; border-radius: 22px; box-shadow: 0 8px 32px rgba(47,77,106,0.15); padding: 32px 12px; max-width: 850px; margin: 40px auto; animation: fadeInUp 0.8s;}
+    #progress table { width: 100%; border-collapse: collapse; font-size: 1rem; border-radius: 14px;}
+    #progress th, #progress td { padding: 13px 9px; border-bottom: 1px solid #dbe4ec; text-align: center;}
+    #progress th { background: linear-gradient(90deg,#3062a7 85%,#4caf50 100%); color: #fff; font-size: 1.1rem; font-weight: 700;}
+    .status-cell[data-status="Complété"] { color: #4caf50; background: linear-gradient(90deg,#eafbee 80%,#4caf50 10%);}
+    .status-cell[data-status="En cours"] { color: #ff9800; background: linear-gradient(90deg,#fff8e1 80%,#ff9800 10%);}
+    .status-cell[data-status="Non commencé"] { color: #f44336; background: linear-gradient(90deg,#fee 80%,#f44336 10%);}
+    /* Responsive */
+    @media (max-width: 900px) {
+      .sidebar {width:100%; height:auto; flex-direction:row; justify-content:space-around; position:static; padding:10px 0;}
+      .main {margin-left:0; padding:18px 2vw;}
+      #progress {padding:18px 2vw;}
+      #quiz-container {max-width:99vw;}
+      .card img {width:70px; height:70px;}
+    }
+    @media (max-width:600px) {
+      #quiz-container, #progress {padding:13px 2px; max-width:99vw;}
+      #progress table th, #progress table td {font-size:0.91rem; padding:10px 2px;}
+      #quiz-container {padding:10px 2px 18px 2px;}
+      .modal-content {padding:15px 2px;}
+    }
+    @keyframes fadeIn {from{opacity:0;transform:scale(0.96);} to{opacity:1;transform:scale(1);}}
+    @keyframes fadeInUp {from{opacity:0;transform:translateY(20px);} to{opacity:1;transform:translateY(0);}}
+  </style>
+</head>
+<body>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <a class="active" onclick="showSection(event, 'home')">Accueil</a>
+    <a onclick="showSection(event, 'activities')">Activités Pratiques</a>
+    <a onclick="showSection(event, 'videos')">Vidéos</a>
+    <a onclick="showSection(event, 'quiz')">Quiz</a>
+    <a onclick="showSection(event, 'fiches')">Fiches Techniques</a>
+    <a onclick="showSection(event, 'progress')">Progression</a>
+  </div>
+  <!-- Main Content -->
+  <div class="main">
+    <div id="home" class="section active">
+      <h1 style="color:#3062a7;">Bienvenue dans le cahier interactif d'activité numérique en art de la table</h1>
+      <p style="color:#2f4d6a;">Apprenez les bases de l’art de la table à travers des exercices interactifs, des vidéos explicatives et des quiz.</p>
+      <button class="btn" onclick="showSection(event, 'activities')">Commencer maintenant</button>
+    </div>
+    <div id="activities" class="section">
+      <h1 style="color:#4caf50;">Activités Pratiques</h1>
+      <div class="grid">
+        <div class="card">
+          <img src="photo2.jpeg" alt="Mise de Table">
+          <h3>Mise de Table</h3>
+          <p>Apprenez à disposer les assiettes, verres et couverts selon les règles d’art.</p>
+          <div class="btn-group">
+            <button class="btn" onclick="showVideoModal('video1.mp4')">payant</button>
+            <button class="btn" onclick="showTextModal('mise-en-place')">gratuit</button>
+          </div>
+        </div>
+        <div class="card">
+          <img src="photo3.jpeg" alt="Hygiène et sécurité">
+          <h3>Hygiène et sécurité</h3>
+          <p>Plongez dans le module Hygiène et sécurité pour apprendre et perfectionner vos pratiques en art de la table.<br>
+            Retrouvez des fiches techniques illustrées, des démonstrations pratiques et des supports PDF téléchargeables pour maîtriser les normes d’hygiène et de sécurité appliquées dans les métiers de la restauration.
+          </p>
+          <div class="btn-group">
+            <button class="btn" onclick="showVideoModal('video2.mp4')">payant</button>
+            <button class="btn" onclick="showTextModal('hygiene-securite')">gratuit</button>
+          </div>
+        </div>
+        <div class="card">
+          <img src="photo4.jpeg" alt="Techniques de service">
+          <h3>Techniques de service</h3>
+          <p>Découvrez les gestes et méthodes professionnelles du service en salle à travers ce module complet !<br>
+            Accédez à des fiches techniques, démonstrations pas à pas et supports PDF pour apprendre à réaliser un service raffiné et conforme aux standards de l’hôtellerie et de la restauration.
+          </p>
+          <div class="btn-group">
+            <button class="btn" onclick="showVideoModal('video3.mp4')">payant</button>
+            <button class="btn" onclick="showTextModal('techniques-service')">gratuit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="videos" class="section">
+      <h1 style="color:#3062a7;">Vidéos de Démonstration</h1>
+      <p style="color:#2f4d6a;">Regardez nos vidéos pour visualiser les gestes et techniques de service.</p>
+      <video controls width="350" style="border-radius:14px;box-shadow:0 2px 15px rgba(47,77,106,0.13);margin-top:10px;">
+        <source src="WhatsApp Video 2025-10-07 at 20.19.55.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div id="quiz" class="section">
+      <div id="quiz-container">
+        <h1>Quiz – Testez vos connaissances</h1>
+        <div id="question-number"></div>
+        <div id="question-text"></div>
+        <div id="answer-buttons"></div>
+        <button id="next-btn">Question suivante</button>
+        <div id="progress-bar"><div id="progress-fill"></div></div>
+      </div>
+    </div>
+    <div id="fiches" class="section">
+      <h1 style="color:#3062a7;">Fiches Techniques</h1>
+      <div class="card">
+        <img src="forks.png" alt="Types de couverts">
+        <h3>Les types de couverts</h3>
+        <p>Découvrez les différents types de couverts utilisés dans le service à table.</p>
+      </div>
+      <div class="card">
+        <img src="glasses.png" alt="Types de verres">
+        <h3>Les types de verres</h3>
+        <p>Verres à vin rouge, à vin blanc, à eau — apprenez à les reconnaître et les placer.</p>
+      </div>
+    </div>
+    <div id="progress" class="section" style="margin-top:20px;">
+      <table id="progress-table">
+        <thead>
+          <tr>
+            <th>Activité</th>
+            <th>Status</th>
+            <th>Commentaires</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Exercice 1</td>
+            <td class="status-cell" data-status="Complété">Complété</td>
+            <td class="comment-cell">Très bien</td>
+            <td><button class="btn" onclick="editRow(this)">تعديل</button></td>
+          </tr>
+          <tr>
+            <td>Exercice 2</td>
+            <td class="status-cell" data-status="En cours">En cours</td>
+            <td class="comment-cell">À améliorer</td>
+            <td><button class="btn" onclick="editRow(this)">تعديل</button></td>
+          </tr>
+          <tr>
+            <td>Exercice 3</td>
+            <td class="status-cell" data-status="Non commencé">Non commencé</td>
+            <td class="comment-cell">-</td>
+            <td><button class="btn" onclick="editRow(this)">تعديل</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <!-- Modal for Text -->
+  <div id="textModal" class="modal" tabindex="-1">
+    <div class="modal-content">
+      <span class="close" onclick="closeTextModal()">&times;</span>
+      <div id="modalText"></div>
+    </div>
+  </div>
+  <!-- Modal for Video -->
+  <div id="videoModal" class="modal" tabindex="-1">
+    <div class="modal-content">
+      <span class="close" onclick="closeVideoModal()">&times;</span>
+      <video id="modalVideo" controls></video>
+    </div>
+  </div>
+  <script>
+    // Section navigation
+    function showSection(event, sectionId) {
+      event.preventDefault();
+      document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+      document.getElementById(sectionId).classList.add('active');
+      document.querySelectorAll('.sidebar a').forEach(a => a.classList.remove('active'));
+      if (event && event.target) event.target.classList.add('active');
+    }
+    // Modal text contents
+    const textContent = {
+      'mise-en-place': `
+        <h2 style="color:#3062a7;">Module : Mise en place (version gratuite)</h2>
+        <p><strong>Professeur :</strong> Yousfi Imad Eddine</p>
+        <p><strong>Type de cours :</strong> Théorique</p>
+        <h3 style="color:#4caf50;">Objectif pédagogique :</h3>
+        <p>À la fin de ce cours, l’apprenant sera capable de définir la notion de mise en place,
+        d’identifier les différents éléments nécessaires à la préparation de la salle avant le service et
+        de comprendre l’importance de l’organisation et de la présentation dans le bon
+        déroulement du service.</p>
+        <h3 style="color:#3062a7;">Contenu du cours :</h3>
+        <p><strong>1️⃣ Définition de la mise en place</strong><br>
+        La mise en place désigne l’ensemble des préparatifs réalisés avant l’accueil du client,
+        destinés à assurer un service rapide, efficace et de qualité. Elle constitue la première étape
+        du service en salle et reflète le professionnalisme du personnel.</p>
+        <p><strong>2️⃣ Objectifs de la mise en place</strong><br>
+        - Garantir un service fluide et sans retard.<br>
+        - Assurer une bonne organisation du travail.<br>
+        - Maintenir une image soignée et professionnelle de l’établissement.<br>
+        - Prévenir les oublis et les erreurs pendant le service.</p>
+        <p><strong>3️⃣ Les étapes principales de la mise en place</strong><br>
+        1. Préparation du matériel : nettoyage et vérification de la vaisselle, verrerie, couverts, linge
+        et mobilier.<br>
+        2. Aménagement de la salle : disposition des tables, chaises, décoration et éléments de
+        confort.<br>
+        3. Dressage des tables : installation du linge, des couverts, verres, assiettes et accessoires
+        selon le type de service.<br>
+        4. Contrôle final : inspection générale avant l’ouverture du restaurant ou de la salle.</p>
+        <p><strong>4️⃣ Importance de la mise en place</strong><br>
+        Une mise en place bien réalisée permet de :<br>
+        - Gagner du temps pendant le service.<br>
+        - Offrir une expérience client agréable et fluide.<br>
+        - Valoriser le savoir-faire du serveur et l’image de l’établissement.</p>
+        <h3 style="color:#4caf50;">Ressources disponibles (version gratuite)</h3>
+        <ul>
+          <li>📄 1 fiche technique en PDF : “Les étapes de la mise en place”</li>
+          <li>📝 1 mini quiz de révision (5 questions)</li>
+          <li>🎥 1 démonstration vidéo accessible uniquement dans la version complète</li>
+        </ul>
+      `,
+      'hygiene-securite': `
+        <h2 style="color:#3062a7;">Hygiène et sécurité (version gratuite)</h2>
+        <p><strong>Professeur :</strong> Yousfi Imad Eddine</p>
+        <p><strong>Type de cours :</strong> Théorique</p>
+        <h3 style="color:#4caf50;">Objectif pédagogique :</h3>
+        <p>Maîtriser les bonnes pratiques d’hygiène et de sécurité dans le domaine de l’art de la table.</p>
+        <h3 style="color:#3062a7;">Contenu :</h3>
+        <ul>
+          <li>Principes d’hygiène alimentaire</li>
+          <li>Nettoyage et désinfection</li>
+          <li>Prévention des accidents</li>
+        </ul>
+        <h3 style="color:#4caf50;">Ressources disponibles (version gratuite)</h3>
+        <ul>
+          <li>📄 Fiche PDF “Hygiène en salle”</li>
+          <li>📝 Quiz pratique (5 questions)</li>
+          <li>🎥 Démonstration vidéo complète dans la version payante</li>
+        </ul>
+      `,
+      'techniques-service': `
+        <h2 style="color:#3062a7;">Techniques de service (version gratuite)</h2>
+        <p><strong>Professeur :</strong> Yousfi Imad Eddine</p>
+        <p><strong>Type de cours :</strong> Théorique</p>
+        <h3 style="color:#4caf50;">Objectif pédagogique :</h3>
+        <p>Apprendre les gestes essentiels pour le service en salle.</p>
+        <h3 style="color:#3062a7;">Contenu :</h3>
+        <ul>
+          <li>Accueil du client</li>
+          <li>Service des plats et boissons</li>
+          <li>Règles de courtoisie</li>
+        </ul>
+        <h3 style="color:#4caf50;">Ressources disponibles (version gratuite)</h3>
+        <ul>
+          <li>📄 Fiche technique en PDF</li>
+          <li>📝 Quiz de révision (5 questions)</li>
+          <li>🎥 Vidéo complète dans la version payante</li>
+        </ul>
+      `
+    };
+    function showTextModal(type) {
+      document.getElementById('modalText').innerHTML = textContent[type] || "<p>Contenu non disponible.</p>";
+      document.getElementById('textModal').style.display = 'flex';
+    }
+    function closeTextModal() {
+      document.getElementById('textModal').style.display = 'none';
+    }
+    function showVideoModal(src) {
+      const video = document.getElementById('modalVideo');
+      video.src = src;
+      video.load();
+      document.getElementById('videoModal').style.display = 'flex';
+      video.play();
+    }
+    function closeVideoModal() {
+      const video = document.getElementById('modalVideo');
+      video.pause();
+      document.getElementById('videoModal').style.display = 'none';
+    }
+    window.onclick = function(event) {
+      if (event.target === document.getElementById('videoModal')) closeVideoModal();
+      if (event.target === document.getElementById('textModal')) closeTextModal();
+    };
+
+    // Quiz logic
+    const quizData = [
+      {
+        question: "Au XVIIIe et XIXe s. quelle différence existait entre le service 'à la française' et le service 'à la russe' ?",
+        answers: [
+          { text: "À la française on servait tous les plats en même temps, à la russe, successivement", correct: true },
+          { text: "Dans le premier on ne mangeait jamais de poisson et dans le second il constituait la majorité du repas", correct: false }
+        ]
+      },
+      {
+        question: "Le fromage ne s'installe à table comme met à part entière qu'au début du XXe siècle.",
+        answers: [
+          { text: "Vrai", correct: true },
+          { text: "Faux", correct: false }
+        ]
+      },
+      {
+        question: "L'origine de l'expression 'dresser la table' vient du fait qu'auparavant il n'existait pas de table ni de salle à manger.",
+        answers: [
+          { text: "Vrai", correct: true },
+          { text: "Faux", correct: false }
+        ]
+      },
+      {
+        question: "À l'origine, que signifie le mot 'restaurant' ?",
+        answers: [
+          { text: "La taverne où le voyageur se restaurait pendant ses voyages", correct: true },
+          { text: "Un bouillon très copieux à base de viande", correct: false },
+          { text: "Le plat de résistance servi dans les auberges", correct: false }
+        ]
+      }
+    ];
+    const questionNumberElem = document.getElementById('question-number');
+    const questionTextElem = document.getElementById('question-text');
+    const answerButtonsElem = document.getElementById('answer-buttons');
+    const nextBtn = document.getElementById('next-btn');
+    const progressFill = document.getElementById('progress-fill');
+    let currentQuestionIndex = 0;
+    let score = 0;
+
+    function startQuiz() {
+      currentQuestionIndex = 0;
+      score = 0;
+      nextBtn.style.display = 'none';
+      nextBtn.innerText = 'Question suivante';
+      showQuestion();
+    }
+    function showQuestion() {
+      resetState();
+      const currentQuestion = quizData[currentQuestionIndex];
+      questionNumberElem.innerText = `QUESTION ${currentQuestionIndex + 1} / ${quizData.length}`;
+      questionTextElem.innerText = currentQuestion.question;
+      currentQuestion.answers.forEach(answer => {
+        const button = document.createElement('button');
+        button.innerText = answer.text;
+        button.classList.add('btn');
+        button.addEventListener('click', () => selectAnswer(answer, button));
+        answerButtonsElem.appendChild(button);
+      });
+      updateProgress();
+    }
+    function resetState() {
+      nextBtn.style.display = 'none';
+      while(answerButtonsElem.firstChild) answerButtonsElem.removeChild(answerButtonsElem.firstChild);
+    }
+    function selectAnswer(answer, button) {
+      Array.from(answerButtonsElem.children).forEach(btn => btn.disabled = true);
+      if(answer.correct){
+        button.classList.add('correct');
+        score++;
+      } else {
+        button.classList.add('wrong');
+      }
+      nextBtn.style.display = 'inline-block';
+    }
+    nextBtn.addEventListener('click', () => {
+      currentQuestionIndex++;
+      if(currentQuestionIndex < quizData.length){
+        showQuestion();
+      } else {
+        showScore();
+      }
+    });
+    function showScore() {
+      resetState();
+      questionNumberElem.innerText = `Résultat: ${score} / ${quizData.length}`;
+      questionTextElem.innerText = "Merci d'avoir participé au quiz !";
+      nextBtn.innerText = 'Recommencer';
+      nextBtn.style.display = 'inline-block';
+      nextBtn.onclick = () => { nextBtn.innerText = 'Question suivante'; startQuiz(); };
+    }
+    function updateProgress() {
+      const progressPercent = ((currentQuestionIndex) / quizData.length) * 100;
+      progressFill.style.width = `${progressPercent}%`;
+    }
+    startQuiz();
+
+    // Edit row logic for Progress Table
+    function editRow(btn) {
+      var row = btn.closest("tr");
+      var statusCell = row.querySelector(".status-cell");
+      var commentCell = row.querySelector(".comment-cell");
+      statusCell.innerHTML = `
+        <select>
+          <option value="Complété">Complété</option>
+          <option value="En cours">En cours</option>
+          <option value="Non commencé">Non commencé</option>
+        </select>
+      `;
+      commentCell.innerHTML = `<input type="text" value="${commentCell.textContent.trim()}" />`;
+      btn.textContent = "حفظ";
+      btn.onclick = function() {
+        var newStatus = statusCell.querySelector("select").value;
+        var newComment = commentCell.querySelector("input").value;
+        statusCell.textContent = newStatus;
+        statusCell.setAttribute('data-status', newStatus);
+        commentCell.textContent = newComment;
+        btn.textContent = "تعديل";
+        btn.onclick = function() { editRow(btn); };
+      };
+    }
+  </script>
+</body>
+</html>
